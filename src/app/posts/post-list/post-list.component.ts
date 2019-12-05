@@ -7,15 +7,21 @@ import {Post} from "../../models/post";
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.scss']
 })
-export class PostListComponent implements OnInit {
-posts: Post[];
+ export class PostListComponent implements OnInit {
+ posts: Post[];
   constructor(private postService:PostService) { }
 
   ngOnInit() {
-    this.postService.posts$.subscribe((posts:Post[]) => {
-      this.posts = posts;
-      console.log(posts);
-    })
+    this.getPosts();
   }
+    getPosts() {
 
+     this.postService.getPosts();
+
+        this.postService.posts$.subscribe((posts)=> {
+          this.posts = posts;
+        });
+
+
+    }
 }
