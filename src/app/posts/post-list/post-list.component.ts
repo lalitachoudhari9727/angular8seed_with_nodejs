@@ -18,10 +18,14 @@ import {Post} from "../../models/post";
 
      this.postService.getPosts();
 
-        this.postService.posts$.subscribe((posts)=> {
+     this.postService.posts$.subscribe((posts)=> {
           this.posts = posts;
         });
 
 
     }
+
+  onDelete(postId: any) {
+    this.postService.deletePost(postId);
+  }
 }

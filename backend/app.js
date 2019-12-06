@@ -22,22 +22,38 @@ app.use((req,res,next)=> {
 
   next();
 });
-app.post('/posts',(req,res,next)=> {
+// Add new post
+app.post('/api/posts',(req,res,next)=> {
   console.log('/posts');
   const post = new Post({
     title: req.body.title,
     content:req.body.content
   });
- post.save();
- res.status(201).json({message:'post added successfully.'});
+ post.save().then((createdPost)=> {
+   res.status(201).json({
+     message:'post added successfully.',
+     id:createdPost._id
+   });
+ });
+
 });
 
-app.get('/posts',(req,res,next)=> {
+// Get all posts
+app.get('/api/posts',(req,res,next)=> {
  Post.find().then(documents=> {
    res.status(200).json({message:'posts fetched success', posts:documents});
 
  });
 });
 
+// Delete specific post.
+app.delete('/api/posts/:id',(req,res,next)=> {
+  Post.deleteOne({_id:req.params.id}).then((result)=> {
+    console.log(result);
+    res.status(200).json({message:'Post deleted successfully.'});
+  }).catch(()=>{
+    res.status(200).json({message:'Post deleted successfully.'});
+  })
+});
 
 module.exports = app;
